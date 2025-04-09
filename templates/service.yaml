@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: argocd-server
-  namespace: {{ .Values.namespace }}
+  name: {{ include "nsvk13-argocd.fullname" . }}
+  labels:
+    {{- include "nsvk13-argocd.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.server.service.type }}
+  type: {{ .Values.service.type }}
   ports:
-    - name: http
-      port: 80
-      targetPort: 8080
-      nodePort: {{ .Values.server.service.nodePort }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
-    app.kubernetes.io/name: argocd-server
+    {{- include "nsvk13-argocd.selectorLabels" . | nindent 4 }}

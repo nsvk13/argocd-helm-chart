@@ -1,7 +1,9 @@
-argo-cd:
-  server:
-    service:
-      type: NodePort
-      nodePort: 30080
-  dex:
-    enabled: false
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
